@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { getBreweries } from './services'
+import useBreweries from './useBreweries'
 
 function App() {
-  const [breweries, setBreweries] = useState([])
-  const [pageOffset, setPageOffset] = useState(0)
-
-  useEffect(() => {
-    getBreweries(1).then(res => {
-      setBreweries(res.data)
-    })
-  }, [])
-
+  const { breweries, isLoading, showNextPage, showPrevPage } = useBreweries()
   return (
     <div>
+      <button disabled={isLoading} onClick={showPrevPage}>
+        Prev
+      </button>
+      <button disabled={isLoading} onClick={showNextPage}>
+        Next
+      </button>
       {breweries.map(brewery => (
         <section>{brewery.name}</section>
       ))}
